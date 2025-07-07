@@ -49,5 +49,6 @@ coverage/
 tmp/
 temp/
 
-# Sample files (adding sample_Readme.md to gitignore)
+# Sample files and planning documents
 sample_Readme.md
+PORTFOLIO_PLAN.md
