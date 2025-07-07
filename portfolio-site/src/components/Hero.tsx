@@ -2,32 +2,69 @@
 
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
-import { Github, Linkedin, Mail, Download, ExternalLink } from 'lucide-react';
+import { Github, Linkedin, Mail, ArrowDown, Sparkles } from 'lucide-react';
 
 export default function Hero() {
+  const scrollToNextSection = () => {
+    const aboutSection = document.getElementById('about');
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Background Grid */}
-      <div className="absolute inset-0 cyber-grid opacity-30" />
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-950 to-black">
       
-      {/* Floating Elements */}
+      {/* Animated background elements */}
       <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
+        {/* Grid pattern */}
+        <div className="absolute inset-0 grid-pattern opacity-30" />
+        
+        {/* Floating orbs */}
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-neon-blue rounded-full"
-            initial={{ opacity: 0 }}
-            animate={{ 
+            className="absolute rounded-full bg-gradient-to-r from-primary-500/20 to-secondary-500/20 blur-xl"
+            style={{
+              width: Math.random() * 300 + 100,
+              height: Math.random() * 300 + 100,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              x: [0, Math.random() * 100 - 50],
+              y: [0, Math.random() * 100 - 50],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: Math.random() * 10 + 10,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+          />
+        ))}
+
+        {/* Sparkle effects */}
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={`sparkle-${i}`}
+            className="absolute"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
               opacity: [0, 1, 0],
-              x: Math.random() * 1200,
-              y: Math.random() * 800,
+              scale: [0, 1, 0],
             }}
             transition={{
               duration: Math.random() * 3 + 2,
               repeat: Infinity,
               delay: Math.random() * 2,
             }}
-          />
+          >
+            <Sparkles className="w-4 h-4 text-primary-400" />
+          </motion.div>
         ))}
       </div>
 
@@ -38,32 +75,38 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
           className="space-y-8"
         >
-          {/* Greeting */}
+          
+          {/* Welcome badge */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-lg text-gray-400 font-mono"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary-500/10 to-secondary-500/10 border border-primary-500/20 rounded-full px-4 py-2"
           >
-            Hi there! 👋 I&apos;m
+            <div className="w-2 h-2 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full animate-pulse" />
+            <span className="text-gray-300 text-sm font-medium">Available for opportunities</span>
           </motion.div>
 
-          {/* Name */}
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-neon-blue via-neon-green to-neon-purple bg-clip-text text-transparent glow-text"
+          {/* Main heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
           >
-            Manan Vyas
-          </motion.h1>
+            <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-4">
+              <span className="block text-white">Hi, I&apos;m</span>
+              <span className="block bg-gradient-to-r from-primary-400 via-secondary-400 to-tertiary-400 bg-clip-text text-transparent animate-glow">
+                Manan Vyas
+              </span>
+            </h1>
+          </motion.div>
 
-          {/* Animated Titles */}
+          {/* Animated subtitle */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="text-2xl md:text-4xl font-semibold text-gray-200 h-16 flex items-center justify-center"
+            transition={{ delay: 0.6 }}
+            className="text-2xl md:text-4xl font-semibold text-gray-300 h-20 flex items-center justify-center"
           >
             <TypeAnimation
               sequence={[
@@ -71,17 +114,17 @@ export default function Hero() {
                 2000,
                 'AI/ML Engineer',
                 2000,
-                'Bug Bounty Hunter',
-                2000,
                 'Problem Solver',
                 2000,
-                'Innovation Enthusiast',
+                'Digital Innovator',
+                2000,
+                'Code Craftsman',
                 2000,
               ]}
               wrapper="span"
               speed={50}
               repeat={Infinity}
-              className="text-neon-blue"
+              className="bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent"
             />
           </motion.div>
 
@@ -89,56 +132,38 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 }}
-            className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
+            transition={{ delay: 0.8 }}
+            className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed"
           >
-            I build <span className="text-neon-green font-semibold">AI-powered, privacy-first solutions</span> that solve real problems. 
-            From DevScope to StudyPal-AI, I create tools that developers and students actually want to use.
+            I craft digital experiences that blend cutting-edge technology with user-centric design. 
+            Specializing in AI-powered solutions, full-stack development, and building products that make a difference.
           </motion.p>
-
-          {/* Tags */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5 }}
-            className="flex flex-wrap justify-center gap-3 text-sm"
-          >
-            {['Local-first AI', 'Prompt Engineering', 'CTF Challenges', 'Open Source'].map((tag) => (
-              <span
-                key={tag}
-                className="px-3 py-1 bg-gray-800/50 text-neon-blue border border-gray-700 rounded-full backdrop-blur-sm"
-              >
-                {tag}
-              </span>
-            ))}
-          </motion.div>
 
           {/* CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            transition={{ delay: 1 }}
+            className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 pt-8"
           >
-            <motion.a
-              href="#projects"
+            <motion.button
+              onClick={scrollToNextSection}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-gradient-to-r from-neon-blue to-neon-green text-dark-primary font-semibold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-neon-blue/50 flex items-center space-x-2"
+              className="px-8 py-4 bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-semibold rounded-xl shadow-2xl hover:shadow-primary-500/25 transition-all duration-300 flex items-center space-x-2"
             >
-              <span>View My Work</span>
-              <ExternalLink className="w-4 h-4" />
-            </motion.a>
-
+              <span>Explore My Work</span>
+              <ArrowDown className="w-4 h-4" />
+            </motion.button>
+            
             <motion.a
-              href="/resume.pdf"
-              target="_blank"
+              href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 border border-neon-blue text-neon-blue font-semibold rounded-lg transition-all duration-300 hover:bg-neon-blue hover:text-dark-primary flex items-center space-x-2"
+              className="px-8 py-4 border border-gray-600 text-gray-300 hover:text-white hover:border-primary-500 font-semibold rounded-xl transition-all duration-300 flex items-center space-x-2"
             >
-              <Download className="w-4 h-4" />
-              <span>Download Resume</span>
+              <Mail className="w-4 h-4" />
+              <span>Get In Touch</span>
             </motion.a>
           </motion.div>
 
@@ -146,50 +171,49 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 2.1 }}
-            className="flex justify-center space-x-6 pt-8"
+            transition={{ delay: 1.2 }}
+            className="flex items-center justify-center space-x-6 pt-12"
           >
             {[
-              { icon: Github, href: 'https://github.com/MananVyas01', label: 'GitHub' },
-              { icon: Linkedin, href: 'https://www.linkedin.com/in/mananvyas0110', label: 'LinkedIn' },
-              { icon: Mail, href: 'mailto:mananvyas.work@gmail.com', label: 'Email' },
-            ].map((social) => (
+              { icon: Github, href: 'https://github.com/mananvyas', label: 'GitHub' },
+              { icon: Linkedin, href: 'https://linkedin.com/in/mananvyas', label: 'LinkedIn' },
+              { icon: Mail, href: 'mailto:hello@mananvyas.dev', label: 'Email' },
+            ].map((social, index) => (
               <motion.a
                 key={social.label}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.2, y: -5 }}
-                whileTap={{ scale: 0.9 }}
-                className="p-3 text-gray-400 hover:text-neon-blue transition-all duration-300 hover:shadow-lg hover:shadow-neon-blue/30 rounded-lg hover:bg-gray-800/50"
-                title={social.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.3 + index * 0.1 }}
+                whileHover={{ y: -3, scale: 1.1 }}
+                className="p-3 bg-gray-800/50 hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-secondary-500/20 border border-gray-700 hover:border-primary-500/50 rounded-xl transition-all duration-300 group"
+                aria-label={social.label}
               >
-                <social.icon className="w-6 h-6" />
+                <social.icon className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors duration-300" />
               </motion.a>
             ))}
           </motion.div>
-
-          {/* Scroll Indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2.5 }}
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="w-6 h-10 border-2 border-gray-600 rounded-full flex justify-center"
-            >
-              <motion.div
-                animate={{ y: [0, 12, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="w-1 h-3 bg-neon-blue rounded-full mt-2"
-              />
-            </motion.div>
-          </motion.div>
         </motion.div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2 }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+      >
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="flex flex-col items-center space-y-2 text-gray-400"
+        >
+          <span className="text-sm font-medium">Scroll to explore</span>
+          <ArrowDown className="w-5 h-5" />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
